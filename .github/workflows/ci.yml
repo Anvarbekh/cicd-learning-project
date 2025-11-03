@@ -1,0 +1,34 @@
+name: Python CI Pipeline
+
+# This workflow runs on any push to the repository
+on: [push]
+
+jobs:
+  # This job is named "validate"
+  validate:
+    # It runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    # These are the steps the job will execute in order
+    steps:
+      # Step 1: Checks out your repository code so the job can access it
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # Step 2: Sets up the Python environment
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Step 3: Installs the project dependencies
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Step 4: Runs the linter to check for code quality issues
+      - name: Lint with Ruff
+        run: ruff check .
+
+      # Step 5: Runs the tests to ensure the code works
+      - name: Run tests with Pytest
+        run: pytest
