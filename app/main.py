@@ -23,9 +23,12 @@ app = FastAPI()
 def read_root():
     return {"message": "CI/CD learning on a feature branch!"}
 
-@app.get("/sentry-debug")
-async def trigger_error():
-    division_by_zero = 1 / 0
+@app.get("/error")
+def trigger_error():
+    # This line is intentionally causing an error to test Sentry.
+    # We add the noqa comment to tell the linter to ignore the "unused variable" warning.
+    division_by_zero = 1 / 0  # noqa: F841
+    return {"message": "This will never be returned."}
 
 # Your existing logging setup
 logger = logging.getLogger(__name__)
